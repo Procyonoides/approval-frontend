@@ -27,6 +27,11 @@
           <i class="bi bi-people"></i> Kelola User
         </a>
       </li>
+      <li [class.active]="activeMenu === 'profile'">
+        <a (click)="setActiveMenu('profile')">
+          <i class="bi bi-person"></i> Profile Admin
+        </a>
+      </li>
       <li [class.active]="activeMenu === 'settings'">
         <a (click)="setActiveMenu('settings')">
           <i class="bi bi-gear"></i> Pengaturan
@@ -86,7 +91,7 @@
               <li><h6 class="dropdown-header">Admin</h6></li>
               <li><hr class="dropdown-divider"></li>
               <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" (click)="setActiveMenu('profile')">
                   <i class="bi bi-person"></i> Profile
                 </a>
               </li>
@@ -171,6 +176,16 @@
         <div class="card border-0 shadow-sm">
           <div class="card-body">
             <app-user-management></app-user-management>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings diganti Profile -->
+      <div *ngIf="activeMenu === 'profile'" class="fade-in">
+        <h2 class="mb-4">Profile Admin</h2>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <app-admin-profile></app-admin-profile>
           </div>
         </div>
       </div>

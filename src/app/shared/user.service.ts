@@ -49,4 +49,9 @@ export class UserService {
   deleteUser(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`, this.getHeaders());
   }
+
+  // 🆕 Admin: Create new user
+  createUser(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, data, this.getHeaders());
+  }
 }

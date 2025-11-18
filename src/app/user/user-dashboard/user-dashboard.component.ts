@@ -26,6 +26,10 @@ export class UserDashboardComponent implements OnInit {
   sidebarCollapsed: boolean = false;
   activeMenu: string = 'dashboard';
 
+  // 🆕 Real-time notification counters
+  approvedCount: number = 0;
+  pendingCount: number = 0;
+
   constructor(private auth: AuthService, private requestService: RequestService, private socketService: SocketService, private toastr: ToastrService) {}
 
   ngOnInit() {
@@ -40,10 +44,15 @@ export class UserDashboardComponent implements OnInit {
     this.socketService.onRequestApproved().subscribe({
       next: (data) => {
         console.log('🔔 User received approved notification:', data);
+
+        // 🆕 Update counter langsung tanpa reload
+        this.approvedCount++;
+        this.pendingCount--;
         
         this.toastr.success(data.message, 'Pengajuan Disetujui!', {
           timeOut: 5000,
-          progressBar: true
+          progressBar: true,
+          positionClass: 'toast-top-right'
         });
 
         this.loadUserRequests();
@@ -58,6 +67,9 @@ export class UserDashboardComponent implements OnInit {
     this.socketService.onRequestRejected().subscribe({
       next: (data) => {
         console.log('🔔 User received rejected notification:', data);
+
+        // 🆕 Update counter langsung
+        this.pendingCount--;
         
         this.toastr.error(data.message, 'Pengajuan Ditolak', {
           timeOut: 5000,
@@ -81,7 +93,10 @@ export class UserDashboardComponent implements OnInit {
     this.requestService.getUserRequests().subscribe({
       next: (data) => {
         this.requests = data;
-        console.log('✅ User requests loaded:', data);
+        // 🆕 Update counters setelah load data
+        this.pendingCount = data.filter((r: any) => r.status === 'pending').length;
+        this.approvedCount = data.filter((r: any) => r.status === 'approved').length;
+        console.log('✅ User requests loaded. Pending:', this.pendingCount, 'Approved:', this.approvedCount);
       },
       error: (err) => {
         console.error('❌ Gagal memuat pengajuan:', err);
@@ -93,6 +108,7 @@ export class UserDashboardComponent implements OnInit {
   // Method yang dipanggil setelah user buat request baru
   onRequestCreated() {
     console.log('✅ Request created/updated! Refreshing list...');
+    this.pendingCount++;
     this.loadUserRequests();
     this.setActiveMenu('my-requests');
   }
@@ -128,7 +144,7 @@ export class UserDashboardComponent implements OnInit {
 
   // Helper methods untuk count status
   getPendingCount(): number {
-    return this.requests.filter(r => r.status === 'pending').length;
+    return this.pendingCount;
   }
 
   getApprovedCount(): number {

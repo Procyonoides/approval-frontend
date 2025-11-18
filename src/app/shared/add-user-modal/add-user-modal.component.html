@@ -1,0 +1,163 @@
+<!-- Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">
+          <i class="bi bi-person-plus"></i> Tambah User Baru
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <form (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="row">
+            <!-- Username -->
+            <div class="col-md-6 mb-3">
+              <label for="addUsername" class="form-label fw-semibold">
+                <i class="bi bi-person-badge"></i> Username <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control"
+                id="addUsername"
+                name="username"
+                [(ngModel)]="username" 
+                placeholder="Username untuk login"
+                required
+              />
+            </div>
+
+            <!-- Nama Lengkap -->
+            <div class="col-md-6 mb-3">
+              <label for="addNama" class="form-label fw-semibold">
+                <i class="bi bi-person"></i> Nama Lengkap <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control"
+                id="addNama"
+                name="nama"
+                [(ngModel)]="nama" 
+                placeholder="Nama lengkap"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Bagian -->
+            <div class="col-md-6 mb-3">
+              <label for="addBagian" class="form-label fw-semibold">
+                <i class="bi bi-building"></i> Bagian/Departemen <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control"
+                id="addBagian"
+                name="bagian"
+                [(ngModel)]="bagian" 
+                placeholder="Contoh: IT, Finance, HRD"
+                required
+              />
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 mb-3">
+              <label for="addEmail" class="form-label fw-semibold">
+                <i class="bi bi-envelope"></i> Email <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="email" 
+                class="form-control"
+                id="addEmail"
+                name="email"
+                [(ngModel)]="email" 
+                placeholder="email@example.com"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="addPassword" class="form-label fw-semibold">
+                <i class="bi bi-key"></i> Password <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="password" 
+                class="form-control"
+                id="addPassword"
+                name="password"
+                [(ngModel)]="password" 
+                placeholder="Password (min 6 karakter)"
+                required
+              />
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="addConfirmPassword" class="form-label fw-semibold">
+                <i class="bi bi-key"></i> Konfirmasi Password <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="password" 
+                class="form-control"
+                id="addConfirmPassword"
+                name="confirmPassword"
+                [(ngModel)]="confirmPassword" 
+                placeholder="Ketik ulang password"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Role -->
+          <div class="mb-3">
+            <label for="addRole" class="form-label fw-semibold">
+              <i class="bi bi-shield-check"></i> Role <span class="text-danger">*</span>
+            </label>
+            <select 
+              class="form-select" 
+              id="addRole"
+              name="role"
+              [(ngModel)]="role"
+              required
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+            <div class="form-text">
+              <i class="bi bi-info-circle"></i> 
+              User: Hanya bisa membuat dan melihat pengajuan sendiri. Admin: Dapat menyetujui/menolak pengajuan dan mengelola user.
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button 
+            type="button" 
+            class="btn btn-secondary" 
+            data-bs-dismiss="modal"
+            [disabled]="isSubmitting"
+          >
+            <i class="bi bi-x-circle"></i> Batal
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-success"
+            [disabled]="isSubmitting"
+          >
+            <span *ngIf="!isSubmitting">
+              <i class="bi bi-check-circle"></i> Tambah User
+            </span>
+            <span *ngIf="isSubmitting">
+              <span class="spinner-border spinner-border-sm me-2"></span>
+              Menambahkan...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

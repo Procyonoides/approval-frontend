@@ -4,16 +4,18 @@ import { DataTablesModule } from 'angular-datatables';
 import { UserService } from '../../shared/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { EditUserModalComponent } from '../../shared/edit-user-modal/edit-user-modal.component';
+import { AddUserModalComponent } from '../../shared/add-user-modal/add-user-modal.component';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, DataTablesModule, EditUserModalComponent],
+  imports: [CommonModule, DataTablesModule, EditUserModalComponent, AddUserModalComponent],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss'
 })
 export class UserManagementComponent implements OnInit {
   @ViewChild(EditUserModalComponent) editModal!: EditUserModalComponent;
+  @ViewChild(AddUserModalComponent) addModal!: AddUserModalComponent;
   
   users: any[] = [];
   dtOptions: any = {};
@@ -54,6 +56,15 @@ export class UserManagementComponent implements OnInit {
     return role === 'admin' ? 'badge bg-danger' : 'badge bg-primary';
   }
 
+  // 🆕 Open add user modal
+  addUser() {
+    if (this.addModal) {
+      this.addModal.openModal();
+    } else {
+      this.toastr.error('Modal tidak tersedia');
+    }
+  }
+
   editUser(user: any) {
     console.log('✏️ Edit user:', user);
     if (this.editModal) {
@@ -81,6 +92,12 @@ export class UserManagementComponent implements OnInit {
 
   onUserUpdated() {
     console.log('✅ User updated! Refreshing list...');
+    this.loadUsers();
+  }
+
+  //Handle user added
+  onUserAdded() {
+    console.log('✅ User added! Refreshing list...');
     this.loadUsers();
   }
 

@@ -167,3 +167,24 @@
     width: 100%;
   }
 }
+
+.badge {
+  transition: all 0.3s ease;
+  
+  &.badge-update {
+    animation: pulse 0.5s ease;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+    background-color: #ff6b6b;
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,51 @@
+// Custom styling untuk admin profile
+.card-header {
+  h4 {
+    color: #333;
+    font-weight: 600;
+    
+    i {
+      color: #667eea;
+    }
+  }
+}
+
+.alert-info {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+  color: #0d47a1;
+  
+  strong {
+    color: #1565c0;
+  }
+}
+
+.form-label {
+  color: #555;
+  
+  i {
+    color: #667eea;
+  }
+}
+
+.form-control {
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s;
+  
+  &:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+}

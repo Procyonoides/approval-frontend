@@ -12,11 +12,13 @@ export class AuthService {
   login(username: string, password: string) {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { username, password }).pipe(
       tap(res => {
+        console.log('📥 Login Response:', res);
         localStorage.setItem('token', res.token);
         localStorage.setItem('role', res.role);
         localStorage.setItem('username', res.username);
         localStorage.setItem('nama', res.nama);
         localStorage.setItem('userId', res.userId);
+        console.log('✅ Saved to localStorage:', res);
       })
     );
   }

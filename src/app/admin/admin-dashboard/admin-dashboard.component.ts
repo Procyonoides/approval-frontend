@@ -6,12 +6,13 @@ import { RequestService } from '../../shared/request.service';
 import { SocketService } from '../../shared/socket.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserManagementComponent } from '../user-management/user-management.component';
+import { AdminProfileComponent } from '../admin-profile/admin-profile.component';
 
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RequestListComponent, UserManagementComponent],
+  imports: [CommonModule, RequestListComponent, UserManagementComponent, AdminProfileComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })
@@ -22,6 +23,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   nama: string | null = '';
   sidebarCollapsed: boolean = false;
   activeMenu: string = 'dashboard';
+
+  // 🆕 Real-time notification counter
+  pendingCount: number = 0;
 
   constructor(public auth: AuthService, private requestService: RequestService, private toastr: ToastrService, private socketService: SocketService) {}
 
@@ -38,11 +42,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.socketService.onNewRequest().subscribe({
       next: (data) => {
         console.log('🔔 Admin received new request notification:', data);
+
+        // 🆕 Update counter langsung tanpa reload
+        this.pendingCount++;
         
         // Tampilkan toast notification
         this.toastr.info(data.message, 'Pengajuan Baru!', {
           timeOut: 5000,
-          progressBar: true
+          progressBar: true,
+          positionClass: 'toast-top-right'
         });
 
         // Refresh request list
@@ -66,7 +74,8 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     this.requestService.getAllRequests().subscribe({
       next: (data) => {
         this.requests = data;
-        console.log('✅ All requests loaded:', data);
+        this.pendingCount = data.filter((r: any) => r.status === 'pending').length;
+        console.log('✅ All requests loaded, Pending count:', this.pendingCount);
       },
       error: (err) => {
         console.error('❌ Gagal memuat data:', err);
@@ -94,7 +103,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   // Helper methods untuk count status
   getPendingCount(): number {
-    return this.requests.filter(r => r.status === 'pending').length;
+    return this.pendingCount;
   }
 
   getApprovedCount(): number {
