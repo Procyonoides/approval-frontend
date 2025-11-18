@@ -1,0 +1,196 @@
+// Wrapper untuk layout
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+// Sidebar Styles (User - warna berbeda dari Admin)
+#sidebar {
+  min-width: 260px;
+  max-width: 260px;
+  background: linear-gradient(180deg, #4CAF50 0%, #2E7D32 100%);
+  color: #fff;
+  transition: all 0.3s;
+  position: relative;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+
+  &.active {
+    margin-left: -260px;
+  }
+
+  .sidebar-header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0;
+      color: white;
+
+      i {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  ul.components {
+    padding: 20px 0;
+
+    li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &.active a {
+        background: rgba(255, 255, 255, 0.2);
+        border-left: 4px solid #fff;
+      }
+
+      a {
+        padding: 15px 20px;
+        font-size: 1rem;
+        display: block;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s;
+        cursor: pointer;
+
+        i {
+          margin-right: 10px;
+          font-size: 1.1rem;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.15);
+          padding-left: 25px;
+        }
+      }
+    }
+  }
+
+  .sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Content Area
+#content {
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s;
+  background: #f8f9fa;
+
+  .navbar {
+    padding: 15px 20px;
+    margin-bottom: 0;
+
+    #sidebarCollapse {
+      border-radius: 8px;
+      
+      i {
+        font-size: 1.3rem;
+      }
+    }
+
+    .dropdown-menu {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: none;
+    }
+
+    .dropdown-item {
+      padding: 10px 20px;
+      transition: all 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f0f0f0;
+        padding-left: 25px;
+      }
+
+      i {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .container-fluid {
+    padding: 20px 30px;
+  }
+}
+
+// Welcome Banner
+.welcome-banner {
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+
+  h2 {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+  }
+}
+
+// Card Hover Effect
+.card-hover {
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+// Fade in animation
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -260px;
+
+    &.active {
+      margin-left: 0;
+    }
+  }
+
+  #content {
+    width: 100%;
+  }
+
+  .welcome-banner {
+    padding: 20px;
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+}

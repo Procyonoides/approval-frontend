@@ -1,0 +1,230 @@
+<!-- Wrapper -->
+<div class="wrapper">
+  <!-- Sidebar -->
+  <nav id="sidebar" [class.active]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <h3><i class="bi bi-file-earmark-text"></i> User Panel</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      <li [class.active]="activeMenu === 'dashboard'">
+        <a (click)="setActiveMenu('dashboard')">
+          <i class="bi bi-house"></i> Dashboard
+        </a>
+      </li>
+      <li [class.active]="activeMenu === 'create'">
+        <a (click)="setActiveMenu('create')">
+          <i class="bi bi-plus-circle"></i> Buat Pengajuan
+        </a>
+      </li>
+      <li [class.active]="activeMenu === 'my-requests'">
+        <a (click)="setActiveMenu('my-requests')">
+          <i class="bi bi-list-check"></i> Pengajuan Saya
+        </a>
+      </li>
+      <li [class.active]="activeMenu === 'profile'">
+        <a (click)="setActiveMenu('profile')">
+          <i class="bi bi-person"></i> Profile
+        </a>
+      </li>
+      <li [class.active]="activeMenu === 'help'">
+        <a (click)="setActiveMenu('help')">
+          <i class="bi bi-question-circle"></i> Bantuan
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button class="btn btn-danger btn-sm w-100" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div id="content">
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container-fluid">
+        <button type="button" id="sidebarCollapse" class="btn btn-outline-primary" (click)="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <span class="navbar-text ms-3 fw-bold text-primary">
+          Sistem Approval
+        </span>
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+          <!-- Notifikasi Status Pengajuan -->
+          <div class="dropdown">
+            <button class="btn btn-link text-decoration-none dropdown-toggle" type="button" 
+                    id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell fs-5 text-secondary position-relative">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                  {{ getApprovedCount() }}
+                </span>
+              </i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+              <li><h6 class="dropdown-header">Status Pengajuan</h6></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-hourglass text-warning"></i> 
+                  {{ getPendingCount() }} menunggu
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-check-circle text-success"></i> 
+                  {{ getApprovedCount() }} disetujui
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- User Menu -->
+          <div class="dropdown">
+            <button class="btn btn-link text-decoration-none dropdown-toggle d-flex align-items-center gap-2" 
+                    type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle fs-4 text-primary"></i>
+              <span class="text-dark">{{ username }}</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><h6 class="dropdown-header">User</h6></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" (click)="setActiveMenu('profile')">
+                  <i class="bi bi-person"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-gear"></i> Settings
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" (click)="logout()">
+                  <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+      <!-- Dashboard Overview -->
+      <div *ngIf="activeMenu === 'dashboard'" class="fade-in">
+        <div class="welcome-banner mb-4">
+          <h2><i class="bi bi-emoji-smile"></i> Selamat Datang, {{ username }}!</h2>
+          <p class="text-muted">Kelola pengajuan Anda dengan mudah</p>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center card-hover">
+              <div class="card-body">
+                <i class="bi bi-file-earmark-plus text-primary" style="font-size: 3rem;"></i>
+                <h3 class="mt-3 mb-0">{{ getTotalCount() }}</h3>
+                <p class="text-muted mb-0">Total Pengajuan</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center card-hover">
+              <div class="card-body">
+                <i class="bi bi-hourglass-split text-warning" style="font-size: 3rem;"></i>
+                <h3 class="mt-3 mb-0">{{ getPendingCount() }}</h3>
+                <p class="text-muted mb-0">Menunggu</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center card-hover">
+              <div class="card-body">
+                <i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>
+                <h3 class="mt-3 mb-0">{{ getApprovedCount() }}</h3>
+                <p class="text-muted mb-0">Disetujui</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Actions</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-grid gap-2 d-md-flex">
+              <button class="btn btn-primary" (click)="setActiveMenu('create')">
+                <i class="bi bi-plus-circle"></i> Buat Pengajuan Baru
+              </button>
+              <button class="btn btn-outline-primary" (click)="setActiveMenu('my-requests')">
+                <i class="bi bi-list-check"></i> Lihat Semua Pengajuan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buat Pengajuan -->
+      <div *ngIf="activeMenu === 'create'" class="fade-in">
+        <h2 class="mb-4"></h2>
+        <app-request-form 
+          (requestCreated)="onRequestCreated()"
+        ></app-request-form>
+      </div>
+
+      <!-- Pengajuan Saya -->
+      <div *ngIf="activeMenu === 'my-requests'" class="fade-in">
+        <h2 class="mb-4">Pengajuan Saya</h2>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <app-request-list 
+              [requests]="requests" 
+              role="user"
+              (requestUpdated)="loadUserRequests()"
+              (requestEdit)="onRequestEdit($event)"
+            ></app-request-list>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div *ngIf="activeMenu === 'profile'" class="fade-in">
+        <h2 class="mb-4">Profile Saya</h2>
+        <app-user-profile></app-user-profile>
+      </div>
+
+      <!-- Help -->
+      <div *ngIf="activeMenu === 'help'" class="fade-in">
+        <h2 class="mb-4">Bantuan</h2>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5>Cara Menggunakan Sistem</h5>
+            <ol>
+              <li>Klik menu "Buat Pengajuan" untuk membuat pengajuan baru</li>
+              <li>Isi form dengan lengkap dan klik "Kirim Pengajuan"</li>
+              <li>Pengajuan Anda akan ditinjau oleh admin</li>
+              <li>Cek status pengajuan di menu "Pengajuan Saya"</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger mt-3" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> {{ error }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🆕 Edit Request Modal -->
+<app-edit-request-modal 
+  (requestUpdated)="onModalRequestUpdated()"
+></app-edit-request-modal>

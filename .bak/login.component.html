@@ -1,0 +1,37 @@
+<div class="login-container">
+  <div class="login-card rounded-3 m-3 p-3">
+    <div class="login-header">
+      <h2><i class="bi bi-shield-lock"></i> Approval System</h2>
+      <p>Silakan login untuk melanjutkan</p>
+    </div>
+    
+    <div class="login-body">
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <div class="mb-3">
+          <label for="username" class="form-label">
+            <i class="bi bi-person"></i> Username
+          </label>
+          <input type="text" class="form-control" id="username" name="username" [(ngModel)]="username" placeholder="Masukkan username" required/>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">
+            <i class="bi bi-key"></i> Password
+          </label>
+          <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" placeholder="Masukkan password" required/>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-login" [disabled]="loginForm.invalid">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </button>
+      </form>
+
+      <div *ngIf="error" class="alert alert-danger mt-3" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> {{ error }}
+      </div>
+    </div>
+  </div>
+  <footer>
+    <span>Version 1.0.0</span>
+  </footer>
+</div>
